@@ -1,0 +1,12 @@
+create view one_seven as
+with number_of_product_group as
+(
+	select distinct  i1.customer_id, count(a1.product_group_name) as number_of_product_groups 
+	from transactions_train as t1
+	right join customerid_date i1 on i1.customer_id = t1.customer_id
+	left join articles a1 on t1.article_id = a1.article_id
+	group by i1.customer_id
+)
+
+select * from one_six
+left join number_of_product_group using(customer_id)
