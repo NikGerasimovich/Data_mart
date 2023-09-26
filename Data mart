@@ -1,0 +1,3 @@
+
+select * from one_eight
+left join customer_loyalty using(customer_id)
