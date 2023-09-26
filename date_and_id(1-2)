@@ -1,0 +1,12 @@
+create view customer_id_date as
+with customer_id as (
+SELECT DISTINCT ON (transactions_train.customer_id) transactions_train.customer_id,
+    transactions_train.t_dat AS part_date
+   FROM transactions_train
+  WHERE transactions_train.t_dat >= date_trunc('month'::text, '2018-12-31 00:00:00'::timestamp without time zone) 
+  AND transactions_train.t_dat <= (date_trunc('month'::text, '2018-12-31 00:00:00'::timestamp without time zone) + '1 mon -1 days'::interval)
+
+)
+
+select * from customer_id
+order by part_date
