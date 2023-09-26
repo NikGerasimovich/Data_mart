@@ -1,0 +1,14 @@
+create view id_date_age as
+with customer_group_by_age as
+	(select 
+	case when age < 23 then 'S'
+		 when age >= 23 and age <= 59 then 'A'
+		else 'R'
+	end	as customer_group_by_age, c1.customer_id 
+	from customers as c1
+	right join customerid_date using (customer_id)		 
+	)
+	
+select * from customerid_date as i1
+right join customer_group_by_age c1 using (customer_id)
+order by i1.part_date	
