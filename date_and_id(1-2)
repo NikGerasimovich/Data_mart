@@ -1,4 +1,4 @@
-create view customer_id_date as
+create view customer_date as
 with customer_id as (
 SELECT DISTINCT ON (transactions_train.customer_id) transactions_train.customer_id,
     transactions_train.t_dat AS part_date
