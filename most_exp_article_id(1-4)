@@ -1,0 +1,11 @@
+create view one_4
+with meai as
+(select distinct on(customer_id) article_id as most_exp_article_id, customer_id
+from transactions_train 
+where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
+	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day'
+group by article_id, customer_id)
+
+select * from one_3
+left join meai using(customer_id)
+
