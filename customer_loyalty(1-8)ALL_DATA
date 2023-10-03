@@ -1,0 +1,27 @@
+create view DATA_ALL as
+with month_2 as(
+	select distinct customer_id from transactions_train 
+	where t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') - interval '1 month + 1 day'
+	      and t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') - interval '3 month - 30 day'
+		  
+), month_1 as(
+	select distinct customer_id from transactions_train 
+	where t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') - interval '1 day'
+	      and t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') - interval '2 month - 31 day'
+), month_12 as
+(
+	select customer_id from month_2
+	inner join month_1 using(customer_id)
+)
+, cust_lo as
+(select distinct
+	 case 
+	 	when d1.customer_id = ANY(SELECT DISTINCT customer_id FROM month_12 )
+        then 1	   	
+	    else 0
+		
+	 end as customer_loyalty, customer_id	 
+	from one_7 as d1)
+	
+select * from one_7
+left join cust_lo using(customer_id)
