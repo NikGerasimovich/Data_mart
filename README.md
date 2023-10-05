@@ -1,3 +1,2 @@
 # Data_mart
-Data_mart - https://drive.google.com/file/d/16vROl87W8nGcyg-eMwQjZKvoIFhMtSH2/view?usp=sharing
-rows number - 254059
+Data_mart - https://docs.google.com/spreadsheets/d/1K4zU7AIYPabbLu2t1uqA9lcuZUP7KvECu4zRaec_In4/edit?usp=sharing
