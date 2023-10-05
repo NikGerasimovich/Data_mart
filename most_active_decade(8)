@@ -1,0 +1,16 @@
+create view data_8 as
+with date_group as
+(	select distinct on(customer_id)
+		case 
+		when t_dat < DATE('2018-12-11') then 1
+		when t_dat >= DATE('2018-12-11') and t_dat < DATE('2018-12-21') then 2
+		else 3
+	end as most_active_decade, customer_id
+	from transactions_train
+	where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
+	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day'
+	group by t_dat, customer_id)
+
+
+select * from data_7
+left join date_group using(customer_id)
