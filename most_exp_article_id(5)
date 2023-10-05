@@ -1,0 +1,17 @@
+create view data_5 as
+with all_table as
+(select t_dat, customer_id, article_id, price
+from transactions_train 
+where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
+	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day'
+)
+, sorted_art as
+(select rank() over(partition by customer_id order by price desc) as qq1, price, article_id, t_dat, customer_id from all_table
+order by customer_id)
+, max_exp_id as
+(select distinct on (customer_id) article_id as most_exp_article_id, customer_id from sorted_art
+where qq1 = 1
+order by customer_id)
+
+select * from data_4
+left join max_exp_id using(customer_id)
