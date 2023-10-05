@@ -1,0 +1,21 @@
+create view data_7 as
+with cust_art_id as
+(select  customer_id, article_id from transactions_train 
+where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
+	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day'
+)
+, grpname_cust_art_id as  --1 148 827 row
+(
+select  product_group_name, article_id, customer_id from articles
+right join cust_art_id using(article_id)
+)
+, grp_all_name as
+(select product_group_name, customer_id from grpname_cust_art_id
+group by product_group_name, customer_id
+order by customer_id)
+, number_of_product_groups as
+(select customer_id, count(product_group_name) as number_of_product_groups from grp_all_name
+group by customer_id)
+
+select * from data_6
+left join number_of_product_groups using(customer_id)
