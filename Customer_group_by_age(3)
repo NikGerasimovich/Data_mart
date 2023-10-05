@@ -1,0 +1,11 @@
+create view data_3 as
+with group_age as
+(select 
+	case when age < 23 then 'S'
+		 when age >= 23 and age <= 59 then 'A'
+		else 'R'
+	end	as customer_group_by_age, customer_id 
+from customers )
+
+select * from data_2
+left join group_age using(customer_id)
