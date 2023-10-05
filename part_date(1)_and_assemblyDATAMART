@@ -1,0 +1,8 @@
+create view dataMart_1_9 as
+with prt_data as
+(select distinct on(customer_id) date_trunc('month', timestamp '2018-12-03 13:25') + interval '1 month -1 day' as part_date, customer_id from transactions_train
+where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
+	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day')
+		  
+select * from data_9
+left join prt_data using(customer_id)
