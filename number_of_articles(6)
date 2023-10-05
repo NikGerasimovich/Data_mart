@@ -1,10 +1,11 @@
-create view one_5 as
-with number_articles as
+create view data_6 as
+with number_of_articles as
 (select distinct on(customer_id) count(article_id) as number_articles , customer_id 
  from transactions_train
  where t_dat >= date_trunc('month', timestamp '2018-12-31 00:00') 
 	      and t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') + interval '1 month - 1 day'
 group by customer_id)
 
-select * from one_4
-left join number_articles using(customer_id)
+
+select * from data_5
+left join number_of_articles using(customer_id)
