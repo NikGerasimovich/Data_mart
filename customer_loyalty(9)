@@ -1,4 +1,4 @@
-create view DATA_ALL as
+create view data_9 as
 with month_2 as(
 	select distinct customer_id from transactions_train 
 	where t_dat <= date_trunc('month', timestamp '2018-12-31 00:00') - interval '1 month + 1 day'
@@ -21,7 +21,7 @@ with month_2 as(
 	    else 0
 		
 	 end as customer_loyalty, customer_id	 
-	from one_7 as d1)
+	from data_7 as d1)
 	
-select * from one_7
+select * from data_8
 left join cust_lo using(customer_id)
